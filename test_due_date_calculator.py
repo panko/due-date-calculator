@@ -26,6 +26,7 @@ class TestDueDateCalculator(unittest.TestCase):
         resolved_time = calculate_due_date(submit_datetime, 16)
         assert submit_datetime.strftime("%A") == "Tuesday"
         assert resolved_time == datetime.datetime(2020, 8, 20, 14, 12)
+        assert resolved_time.strftime("%A") == "Thursday"
 
     def test_nextday(self):
         """
@@ -55,10 +56,10 @@ class TestDueDateCalculator(unittest.TestCase):
         sunday = datetime.datetime(2020, 8, 23)
         monday = datetime.datetime(2020, 8, 24)
 
-        assert is_weekday(friday) is True
-        assert is_weekday(saturday) is False
-        assert is_weekday(sunday) is False
-        assert is_weekday(monday) is True
+        self.assertTrue(is_weekday(friday))
+        self.assertFalse(is_weekday(saturday))
+        self.assertFalse(is_weekday(sunday))
+        self.assertTrue(is_weekday(monday))
 
     def test_reported_during_workhours(self):
         """
@@ -79,6 +80,10 @@ class TestDueDateCalculator(unittest.TestCase):
         self.assertRaises(ValueError, calculate_due_date, after_workhour, 1)
 
     def test_valid_turnaround_hour(self):
+        """
+        We cant accept zero or negative
+        as a parameter for 'turnaround_hours'
+        """
         valid_datetime = datetime.datetime(2020, 8, 21, 13, 2)
         self.assertRaises(ValueError, calculate_due_date, valid_datetime, 0)
         self.assertRaises(ValueError, calculate_due_date, valid_datetime, -1)

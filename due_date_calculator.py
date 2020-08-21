@@ -19,12 +19,17 @@ def is_weekday(submit_datetime):
 def is_working_hours(submit_datetime):
     """
     Checks if the date is in the working hour range or not.
+    Returns True or False
     """
     date_hour = submit_datetime.hour
     return date_hour >= START_HOUR and date_hour < END_HOUR
 
 
 def is_valid_submitdate(submit_datetime):
+    """
+    Checks if the profided date is valid or not.
+    Returns True or False
+    """
     return is_weekday(submit_datetime) and is_working_hours(submit_datetime)
 
 
